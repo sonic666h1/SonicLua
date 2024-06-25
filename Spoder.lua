@@ -140,19 +140,46 @@ toggleMenuButton.Parent = menuFrame
 -- Original character reference
 local originalCharacter = character:Clone()
 
--- Button functionality
-transformButton.MouseButton1Click:Connect(function()
-  characterUtil.removeOriginalCharacterModel(character)
-  local spiderModel = spiderModelUtil.createSpiderModel(character.PrimaryPart.Position)
-  characterUtil.setSpiderModelAsCharacter(player, spiderModel)
+-- Check if the player owns the game pass
+local gamePassId = YOUR_GAMEPASS_ID -- Replace with your actual game pass ID
+local hasGamePass = false
+
+local success, result = pcall(function()
+  return game:GetService("MarketplaceService"):UserOwnsGamePassAsync(player.UserId, gamePassId)
 end)
 
-revertButton.MouseButton1Click:Connect(function()
-  local spiderModel = player.Character
-  characterUtil.revertTransformation(player, originalCharacter, spiderModel)
-end)
+if success then
+  hasGamePass = result
+else
+  warn("Error checking game pass ownership: " .. tostring(result))
+end
 
-toggleMenuButton.MouseButton1Click:Connect(function()
-  menuVisible = not menuVisible
-  menuFrame.Visible = menuVisible
-end)
+if hasGamePass then
+  -- Button functionality
+  transformButton.MouseButton1Click:Connect(function()
+    characterUtil.removeOriginalCharacterModel(character)
+    local spiderModel = spiderModelUtil.createSpiderModel(character.PrimaryPart.Position)
+    characterUtil.setSpiderModelAsCharacter(player, spiderModel)
+  end)
+
+  revertButton.MouseButton1Click:Connect(function()
+    local spiderModel = player.Character
+    characterUtil.revertTransformation(player, originalCharacter, spiderModel)
+  end)
+
+  toggleMenuButton.MouseButton1Click:Connect(function()
+    menuVisible = not menuVisible
+    menuFrame.Visible = menuVisible
+  end)
+else
+  -- Notify the player that they do not own the required game pass
+  local noPassMessage = Instance.new("TextLabel")
+  noPassMessage.Size = UDim2.new(1, 0, 1, 0)
+  noPassMessage.Position = UDim2.new(0, 0, 0, 0)
+  noPassMessage.Font = Enum.Font.SourceSansBold
+  noPassMessage.Text = "You do not own the required game pass."
+  noPassMessage.TextScaled = true
+  noPassMessage.TextColor3 = Color3.fromRGB(255, 0, 0)
+  noPassMessage.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+  noPassMessage.Parent = menuFrame
+end
