@@ -107,7 +107,7 @@ menuTitle.Parent = menuFrame
 -- Transform Button
 local transformButton = Instance.new("TextButton")
 transformButton.Size = UDim2.new(1, -20, 0, 40)
-transformButton.Position = UDim2.new(0.5, -90, 0.5, -20)
+transformButton.Position = UDim2.new(0.5, -90, 0.4, -20)
 transformButton.Font = Enum.Font.SourceSans
 transformButton.Text = "Transform into Spider"
 transformButton.TextScaled = true
@@ -129,7 +129,7 @@ revertButton.Parent = menuFrame
 -- Toggle Menu Visibility Button
 local toggleMenuButton = Instance.new("TextButton")
 toggleMenuButton.Size = UDim2.new(1, -20, 0, 30)
-toggleMenuButton.Position = UDim2.new(0.5, -90, 1.0, -20)
+toggleMenuButton.Position = UDim2.new(0.5, -90, 0.9, -15)
 toggleMenuButton.Font = Enum.Font.SourceSans
 toggleMenuButton.Text = "Toggle Menu"
 toggleMenuButton.TextScaled = true
